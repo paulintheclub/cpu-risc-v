@@ -1,0 +1,135 @@
+
+test.o: formát súboru elf32-littleriscv
+
+
+Rozloženie sekcie .text:
+
+00000000 <_boot>:
+   0:	00000193          	li	gp,0
+   4:	0500006f          	j	54 <_test_case_0>
+
+00000008 <_regs_to_mem>:
+   8:	0181a023          	sw	s8,0(gp)
+   c:	0191a223          	sw	s9,4(gp)
+  10:	01a1a423          	sw	s10,8(gp)
+  14:	01b1a623          	sw	s11,12(gp)
+  18:	01c1a823          	sw	t3,16(gp)
+  1c:	01d1aa23          	sw	t4,20(gp)
+  20:	01e1ac23          	sw	t5,24(gp)
+  24:	01f1ae23          	sw	t6,28(gp)
+  28:	02018193          	addi	gp,gp,32
+  2c:	00008067          	ret
+
+00000030 <_clear_regs>:
+  30:	00000c13          	li	s8,0
+  34:	00000c93          	li	s9,0
+  38:	00000d13          	li	s10,0
+  3c:	00000d93          	li	s11,0
+  40:	00000e13          	li	t3,0
+  44:	00000e93          	li	t4,0
+  48:	00000f13          	li	t5,0
+  4c:	00000f93          	li	t6,0
+  50:	00008067          	ret
+
+00000054 <_test_case_0>:
+  54:	10000513          	li	a0,256
+  58:	01000593          	li	a1,16
+  5c:	01751c13          	slli	s8,a0,0x17
+  60:	0085dc93          	srli	s9,a1,0x8
+  64:	41fc5d13          	srai	s10,s8,0x1f
+  68:	fff50d93          	addi	s11,a0,-1
+  6c:	800d4e13          	xori	t3,s10,-2048
+  70:	800d7e93          	andi	t4,s10,-2048
+  74:	800def13          	ori	t5,s11,-2048
+  78:	00001f97          	auipc	t6,0x1
+  7c:	f8dff0ef          	jal	ra,8 <_regs_to_mem>
+
+00000080 <_test_case_1>:
+  80:	00800513          	li	a0,8
+  84:	00800c37          	lui	s8,0x800
+  88:	00000013          	nop
+  8c:	00ac1cb3          	sll	s9,s8,a0
+  90:	00ac5d33          	srl	s10,s8,a0
+  94:	40acddb3          	sra	s11,s9,a0
+  98:	00ac0e33          	add	t3,s8,a0
+  9c:	01bcceb3          	xor	t4,s9,s11
+  a0:	01bcff33          	and	t5,s9,s11
+  a4:	01dcefb3          	or	t6,s9,t4
+  a8:	f61ff0ef          	jal	ra,8 <_regs_to_mem>
+
+000000ac <_test_case_2>:
+  ac:	00100513          	li	a0,1
+  b0:	fff00593          	li	a1,-1
+  b4:	fff52c13          	slti	s8,a0,-1
+  b8:	fff53c93          	sltiu	s9,a0,-1
+  bc:	00a5ad33          	slt	s10,a1,a0
+  c0:	00a5bdb3          	sltu	s11,a1,a0
+  c4:	40b50e33          	sub	t3,a0,a1
+  c8:	40b58eb3          	sub	t4,a1,a1
+  cc:	40a00f33          	neg	t5,a0
+  d0:	40a58fb3          	sub	t6,a1,a0
+  d4:	f35ff0ef          	jal	ra,8 <_regs_to_mem>
+
+000000d8 <_test_case_3>:
+  d8:	00100513          	li	a0,1
+  dc:	0c000593          	li	a1,192
+  e0:	00a58c33          	add	s8,a1,a0
+  e4:	00ac0cb3          	add	s9,s8,a0
+  e8:	418c8d33          	sub	s10,s9,s8
+  ec:	41ac0db3          	sub	s11,s8,s10
+  f0:	01bda023          	sw	s11,0(s11)
+  f4:	000dae03          	lw	t3,0(s11)
+  f8:	ffce0e93          	addi	t4,t3,-4
+  fc:	004eaf03          	lw	t5,4(t4)
+ 100:	01ef2223          	sw	t5,4(t5)
+ 104:	008eaf83          	lw	t6,8(t4)
+ 108:	f01ff0ef          	jal	ra,8 <_regs_to_mem>
+
+0000010c <_test_case_4>:
+ 10c:	00200513          	li	a0,2
+ 110:	01e51593          	slli	a1,a0,0x1e
+ 114:	02a58c33          	mul	s8,a1,a0
+ 118:	02a5bcb3          	mulhu	s9,a1,a0
+ 11c:	02a59d33          	mulh	s10,a1,a0
+ 120:	02ad2db3          	mulhsu	s11,s10,a0
+ 124:	0f000e13          	li	t3,240
+ 128:	004d9d93          	slli	s11,s11,0x4
+ 12c:	004ddd93          	srli	s11,s11,0x4
+ 130:	03be2eb3          	mulhsu	t4,t3,s11
+ 134:	00ae8f33          	add	t5,t4,a0
+ 138:	03ef0fb3          	mul	t6,t5,t5
+ 13c:	ecdff0ef          	jal	ra,8 <_regs_to_mem>
+
+00000140 <_test_case_5>:
+ 140:	00000513          	li	a0,0
+ 144:	fff00593          	li	a1,-1
+
+00000148 <_branch_0>:
+ 148:	00b50463          	beq	a0,a1,150 <_branch_1>
+ 14c:	07b00c93          	li	s9,123
+
+00000150 <_branch_1>:
+ 150:	00b51463          	bne	a0,a1,158 <_branch_2>
+ 154:	07b00d13          	li	s10,123
+
+00000158 <_branch_2>:
+ 158:	00b54463          	blt	a0,a1,160 <_branch_3>
+ 15c:	07b00d93          	li	s11,123
+
+00000160 <_branch_3>:
+ 160:	00b56463          	bltu	a0,a1,168 <_branch_4>
+ 164:	07b00e13          	li	t3,123
+
+00000168 <_branch_4>:
+ 168:	00a5d463          	bge	a1,a0,170 <_branch_5>
+ 16c:	07b00e93          	li	t4,123
+
+00000170 <_branch_5>:
+ 170:	00a5f463          	bgeu	a1,a0,178 <_test_3_end>
+ 174:	07b00f13          	li	t5,123
+
+00000178 <_test_3_end>:
+ 178:	e91ff0ef          	jal	ra,8 <_regs_to_mem>
+
+0000017c <_end>:
+ 17c:	00100073          	ebreak

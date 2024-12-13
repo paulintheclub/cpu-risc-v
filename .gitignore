@@ -1,0 +1,7 @@
+*.tmp
+*.log
+
+/sim/
+/work/
+
+.vscode/
